@@ -15,6 +15,11 @@ import { BreadcrumbItemComponent } from "./breadcrumb-item.component";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 
+/**
+ * 最小溢出阈值
+ * so, what this value stand for
+ * Todo
+ */
 const MINIMUM_OVERFLOW_THRESHOLD = 4;
 
 /**
@@ -44,6 +49,9 @@ const MINIMUM_OVERFLOW_THRESHOLD = 4;
 				[ariaCurrent]="item.ariaCurrent"
 				(navigation)="navigation.emit($event)">
 				<ng-container *ngIf="!item.template">{{item.content}}</ng-container>
+				// 这里可以看到 content 支持传入模板
+				// 并且 context 绑定了 item 值。
+				// ngTemplateOutlet 的介绍可以参考 Accordion 组件解析
 				<ng-template
 					*ngIf="item.template"
 					[ngTemplateOutlet]="item.template"
@@ -53,6 +61,10 @@ const MINIMUM_OVERFLOW_THRESHOLD = 4;
 		</ng-template>
 		<ng-template [ngIf]="shouldShowOverflow">
 			<ibm-breadcrumb-item
+				// 这里的 ? 号语法可以处理 first 是 null 的情况
+				// https://github.com/e2tox/blog/issues/9
+				// ? 安全链式调用
+				// ! 强制链式调用, 确信某个字段一定存在
 				[href]="first?.href"
 				[route]="first?.route"
 				[routeExtras]="first?.routeExtras"
@@ -72,6 +84,8 @@ const MINIMUM_OVERFLOW_THRESHOLD = 4;
 						*ngFor="let item of overflowItems">
 						<a class="bx--overflow-menu-options__btn"
 							href="{{item?.href}}"
+							// a 标签的点击事件传入了 $event
+							// 从 navigate 函数中可以看到, 使用 event.preventDefault() 阻止了 a 标签默认行为 -- 打开新的标签。
 							(click)="navigate($event, item)"
 							style="text-decoration: none;">
 							<ng-container *ngIf="!item?.template">{{item?.content}}</ng-container>
@@ -116,6 +130,7 @@ const MINIMUM_OVERFLOW_THRESHOLD = 4;
 	</nav>`
 })
 export class Breadcrumb implements AfterContentInit {
+	// 获取到 host (内容投影的 item 组件) 的所有 breadcrumbitem 组件，放到 chilren 数组中
 	@ContentChildren(BreadcrumbItemComponent) children: QueryList<BreadcrumbItemComponent>;
 
 	@Input() items: Array<BreadcrumbItem>;
@@ -161,19 +176,19 @@ export class Breadcrumb implements AfterContentInit {
 		}
 		return this.items.length > this.threshold;
 	}
-
+	// 取了第一个元素
 	get first(): BreadcrumbItem {
 		return this.shouldShowOverflow ? this.items[0] : null;
 	}
-
+	// 取第二个 到 倒数第三个
 	get overflowItems(): Array<BreadcrumbItem> {
 		return this.shouldShowOverflow ? this.items.slice(1, this.items.length - 2) : [];
 	}
-
+	// 倒数第二个
 	get secondLast(): BreadcrumbItem {
 		return this.shouldShowOverflow ? this.items[this.items.length - 2] : null;
 	}
-
+	// 最后一个
 	get last(): BreadcrumbItem {
 		return this.shouldShowOverflow ? this.items[this.items.length - 1] : null;
 	}
@@ -190,6 +205,10 @@ export class Breadcrumb implements AfterContentInit {
 	navigate(event, item: BreadcrumbItem) {
 		if (this.router && item.route) {
 			event.preventDefault();
+			// 这里返回了 navigate 的结果
+      		// 参考 https://angular.io/api/router/Router Router 的 API
+      		// navigate(commands: any[], extras: NavigationExtras = { skipLocationChange: false }): Promise<boolean>
+      		// 返回的是 Promise<boolean>，异步的
 			const status = this.router.navigate(item.route, item.routeExtras);
 			this.navigation.emit(status);
 		}

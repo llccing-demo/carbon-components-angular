@@ -30,6 +30,8 @@ export class BreadcrumbItemComponent {
 	}
 
 	get href() {
+		// 这里做了转换，防止 xss 攻击。
+		// Angular 内部了提供了这种过滤方法
 		return this.domSanitizer.bypassSecurityTrustUrl(this._href) as string;
 	}
 
@@ -55,7 +57,7 @@ export class BreadcrumbItemComponent {
 	@Input() ariaCurrent = "page";
 
 	@HostBinding("class.bx--breadcrumb-item--current") @Input() current = false;
-
+	// 给 host 元素增加类名
 	@HostBinding("class.bx--breadcrumb-item") itemClass = true;
 
 	protected _href: string;
