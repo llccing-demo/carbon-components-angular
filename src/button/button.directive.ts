@@ -122,6 +122,7 @@ export class Button implements OnInit {
 	 *	</button>
 	 * ```
 	 */
+	// 两个 HostBinding 绑定到同一个变量，这个写法第一次见
 	@HostBinding("class.bx--tooltip__trigger")
 	@HostBinding("class.bx--tooltip--a11y") @Input() hasAssistiveText = false;
 
@@ -154,6 +155,7 @@ export class Button implements OnInit {
 	}
 
 	ngOnInit() {
+		// 如果仅有 ibmButton 指令，但是未设置任何值，默认会设置为 primary。
 		if (!this.ibmButton) {
 			this.ibmButton = "primary";
 		}
