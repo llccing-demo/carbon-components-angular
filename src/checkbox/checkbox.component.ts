@@ -85,6 +85,7 @@ export class CheckboxChange {
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
+// 这里实现了 ControlValueAccessor 接口，是 Angular 中自定义组件的操作之一
 export class Checkbox implements ControlValueAccessor, AfterViewInit {
 	/**
 	 * Variable used for creating unique ids for checkbox components.
@@ -137,7 +138,7 @@ export class Checkbox implements ControlValueAccessor, AfterViewInit {
 	@Input() value: CheckboxValue;
 	/**
 	 * Used to set the `aria-label` attribute on the input element.
-	 *
+	 * 这个标记的方式值得学习，表示后面使用 ariaLabel 代替 aria-label.
 	 * @deprecated since v4 use the `ariaLabel` input instead
 	 */
 	// tslint:disable-next-line:no-input-rename
@@ -176,6 +177,7 @@ export class Checkbox implements ControlValueAccessor, AfterViewInit {
 	 *
 	 * Allows double binding with the `indeterminateChange` Output.
 	 */
+	// 中间状态
 	@Input() set indeterminate(indeterminate: boolean) {
 		if (indeterminate === this._indeterminate) {
 			return;
@@ -251,17 +253,22 @@ export class Checkbox implements ControlValueAccessor, AfterViewInit {
 	/**
 	 * Set to `true` if the input checkbox is in state indeterminate.
 	 */
+	// 这里标记了一种不定的状态，效果就是：方框中间有个横线
 	_indeterminate = false;
 
 	/**
 	 * Keeps a reference to the checkboxes current state, as defined in `CheckboxState`.
 	 */
+	// 这里使用枚举，标记了 初始的状态。
 	currentCheckboxState = CheckboxState.Init;
 
 	/**
 	 * Maintains a reference to the view DOM element of the `Checkbox`.
 	 */
 	// @ts-ignore
+	// static = false, static 选项的默认值为 false
+	// 当 static = false 时，query result 可以在 ngAfterViewInit 生命周期中取得
+	// https://angular.io/guide/static-query-migration
 	@ViewChild("inputCheckbox", { static: false }) inputCheckbox: ElementRef;
 
 	/**
@@ -326,6 +333,7 @@ export class Checkbox implements ControlValueAccessor, AfterViewInit {
 	/**
 	 * Executes on the event of a change within `Checkbox` to block propagation.
 	 */
+	// input 的 change 事件，阻止冒泡？
 	onChange(event: Event) {
 		event.stopPropagation();
 	}
@@ -334,6 +342,9 @@ export class Checkbox implements ControlValueAccessor, AfterViewInit {
 	 * Handles click events on the `Checkbox` and emits changes to other classes.
 	 */
 	onClick(event: Event) {
+		// click 是 new EventEmitter(); click.observers 这个写法很有意思
+		// 这是判断是否有外部组件绑定该事件
+		// 如果有，则继续执行逻辑；否则跳过
 		if (this.click.observers.length) {
 			// Disable default checkbox activation behavior which flips checked and resets indeterminate.
 			// This allows the parent component to control the checked/indeterminate properties.
@@ -381,6 +392,8 @@ export class Checkbox implements ControlValueAccessor, AfterViewInit {
 	 */
 	ngAfterViewInit() {
 		if (this.indeterminate && this.inputCheckbox && this.inputCheckbox.nativeElement) {
+			// 原生组件也有这个属性
+			// https://css-tricks.com/indeterminate-checkboxes/
 			this.inputCheckbox.nativeElement.indeterminate = true;
 		}
 	}
