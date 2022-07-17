@@ -18,6 +18,8 @@ import { AbstractDropdownView, DropdownService } from "carbon-components-angular
 import { ListItem } from "carbon-components-angular/dropdown";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { filter } from "rxjs/operators";
+// 这三个工具函数的解析，通过下面连接进入查看
+// https://www.yuque.com/uov16w/tq9och/gg86ac 
 import {
 	DocumentService,
 	getScrollableParents,
@@ -182,6 +184,7 @@ export class ComboBox implements OnChanges, AfterViewInit, AfterContentInit, OnD
 	/**
 	 * Text to show when nothing is selected.
 	 */
+	// 为什么一个输入的值还能是 Observable<string> 类型呢
 	@Input() set placeholder(value: string | Observable<string>) {
 		this._placeholder.override(value);
 	}
@@ -290,10 +293,19 @@ export class ComboBox implements OnChanges, AfterViewInit, AfterContentInit, OnD
 	@Input() size: "sm" | "md" | "xl" = "md";
 	/**
 	 * Specifies the property to be used as the return value to `ngModel`
+	 * 定义一个 key，用于 ngModel 绑定的属性值
+	 * 比如 content, 那么 content 的值会赋值到 ngModel 上。
+   {
+     content: 'sdfa',
+     value: 'asdf',
+     selectd: false;
+   }
+   如果这时 itemValueKey 为 value，那么就可以做到类似其他UI组件，content用于展示，value用于传入接口的效果。
 	 */
 	@Input() itemValueKey: string;
 	/**
 	 * Label for the combobox.
+	 * 同时支持 string + 模板，方便自定义
 	 */
 	@Input() label: string | TemplateRef<any>;
 	/**
@@ -302,6 +314,8 @@ export class ComboBox implements OnChanges, AfterViewInit, AfterContentInit, OnD
 	@Input() helperText: string | TemplateRef<any>;
 	/**
 	 * set to `true` to place the dropdown view inline with the component
+	 * 行内模式，这个如果不手动设置是自动设置的。举个例子，如果在 modal 中使用该组件，默认会非行内的效果，不能搜索。因为下拉框和label紧紧贴着，挡住了input。
+	 * 可以手动改为 true。
 	 */
 	@Input() appendInline: boolean = null;
 	/**
@@ -333,6 +347,7 @@ export class ComboBox implements OnChanges, AfterViewInit, AfterContentInit, OnD
 	 * `top`: selected item jumps to top
 	 * `fixed`: selected item stays at its position
 	 * `top-after-reopen`: selected item jump to top after reopen dropdown
+	 * 针对选中项的一种便捷交互效果
 	 */
 	@Input() selectionFeedback: "top" | "fixed" | "top-after-reopen" = "top-after-reopen";
 	/**
@@ -400,6 +415,7 @@ export class ComboBox implements OnChanges, AfterViewInit, AfterContentInit, OnD
 	@Output() search = new EventEmitter<string>();
 	/** ContentChild reference to the instantiated dropdown list */
 	// @ts-ignore
+	// AbstractDropdownView 是下拉列表的类，通过该方式，可以取得内容投影中的 dropdown-list 实例。
 	@ContentChild(AbstractDropdownView, { static: true }) view: AbstractDropdownView;
 	// @ts-ignore
 	@ViewChild("dropdownMenu", { static: false }) dropdownMenu;
@@ -420,6 +436,7 @@ export class ComboBox implements OnChanges, AfterViewInit, AfterContentInit, OnD
 	/** used to update the displayValue */
 	public selectedValue = "";
 
+	// 这里将 this 传入到 _keyboardNav 函数中
 	keyboardNav = this._keyboardNav.bind(this);
 	/**
 	 * controls whether the `drop-up` class is applied
@@ -443,6 +460,8 @@ export class ComboBox implements OnChanges, AfterViewInit, AfterContentInit, OnD
 	 */
 	constructor(
 		protected elementRef: ElementRef,
+		// DocumentService 已经在后面分析
+		// 主要用于处理 dom event
 		protected documentService: DocumentService,
 		protected dropdownService: DropdownService,
 		protected i18n: I18n
@@ -455,6 +474,7 @@ export class ComboBox implements OnChanges, AfterViewInit, AfterContentInit, OnD
 	 */
 	ngOnChanges(changes) {
 		if (changes.items) {
+			// view 指的是 dropdownView, 通过 ContentChild 指令选择的组件
 			this.view.items = changes.items.currentValue;
 			this.updateSelected();
 			// If new items are added into the combobox while there is search input,
