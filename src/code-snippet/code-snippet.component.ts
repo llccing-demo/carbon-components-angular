@@ -6,7 +6,7 @@ import {
 	HostListener,
 	AfterViewInit
 } from "@angular/core";
-
+// 国际化
 import { I18n } from "carbon-components-angular/i18n";
 
 export enum SnippetType {
@@ -27,6 +27,8 @@ export enum SnippetType {
 @Component({
 	selector: "ibm-code-snippet",
 	template: `
+		// ng-container 在 Accordion 部分提到过，作为容器
+		// 这里是 ng-container 嵌套使用, 一定程度上会使结构更加清晰
 		<ng-container *ngIf="display === 'inline'; else notInline">
 			<ng-container *ngTemplateOutlet="codeTemplate"></ng-container>
 			<ng-container *ngTemplateOutlet="feedbackTemplate"></ng-container>
@@ -44,6 +46,7 @@ export enum SnippetType {
 				</ng-container>
 				<pre *ngIf="!skeleton"><ng-container *ngTemplateOutlet="codeTemplate"></ng-container></pre>
 			</div>
+			// 复制按钮
 			<button
 				*ngIf="!skeleton"
 				class="bx--snippet-button"
@@ -53,6 +56,7 @@ export enum SnippetType {
 				<svg ibmIcon="copy" size="16" class="bx--snippet__icon"></svg>
 				<ng-container *ngTemplateOutlet="feedbackTemplate"></ng-container>
 			</button>
+			// 展开按钮
 			<button
 				*ngIf="shouldShowExpandButton"
 				class="bx--btn bx--btn--ghost bx--btn--sm bx--snippet-btn--expand"
@@ -67,6 +71,7 @@ export enum SnippetType {
 			<code #code><ng-content></ng-content></code>
 		</ng-template>
 
+		// 复制成功的提示
 		<ng-template #feedbackTemplate>
 			<div
 			class="bx--btn--copy__feedback"
@@ -82,6 +87,7 @@ export class CodeSnippet implements AfterViewInit {
 	/**
 	 * Variable used for creating unique ids for code-snippet components.
 	 */
+	// 创建唯一 id
 	static codeSnippetCount = 0;
 
 	/**
@@ -136,12 +142,15 @@ export class CodeSnippet implements AfterViewInit {
 	}
 
 	// @ts-ignore
+	// 获取 dom 元素引用
 	@ViewChild("code", { static: false }) code;
 
 	get shouldShowExpandButton() {
 		// Checks if `hasExpand` button has been initialized in `AfterViewInit` before detecting whether or not to
 		// show the expand button when the code displayed in the component changes during the life of the component.
 		// This is to avoid the `ExpressionChangedAfterItHasBeenCheckedError`.
+		// 文中提到的错误很容易发生，这里通过 hasExpandButton 变量来处理
+		// 在 ngAfterViewInit 中，hasExpandButton 变量的值被设置
 		if (this.hasExpandButton === null) {
 			return this.hasExpandButton;
 		}
