@@ -113,6 +113,7 @@ import { ScrollCustomEvent } from "./scroll-custom-event.interface";
 		}
 	]
 })
+// 这里实现了 AbstractDropdownView 抽象类
 export class DropdownList implements AbstractDropdownView, AfterViewInit, OnDestroy {
 	static listCount = 0;
 	@Input() ariaLabel = this.i18n.get().DROPDOWN_LIST.LABEL;
@@ -606,6 +607,7 @@ export class DropdownList implements AbstractDropdownView, AfterViewInit, OnDest
 	 */
 	onItemsReady(subcription: () => void): void {
 		// this subscription will auto unsubscribe because of the `first()` pipe
+		// first pipe, https://www.learnrxjs.io/learn-rxjs/operators/filtering/first
 		(this._itemsReady || of(true)).pipe(first()).subscribe(subcription);
 	}
 

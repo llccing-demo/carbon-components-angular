@@ -50,6 +50,7 @@ export class AbstractDropdownView {
 	/**
 	 * Returns the `ListItem` that is subsequent to the selected item in the `DropdownList`.
 	 */
+	// 该抽象类是作者将普通类用作抽象类。这里的函数仍然是有函数体的
 	getNextItem(): ListItem { return; }
 	/**
 	 * Returns a boolean if the currently selected item is preceded by another
