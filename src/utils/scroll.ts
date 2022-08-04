@@ -7,6 +7,7 @@ import { fromEvent, merge, Observable } from "rxjs";
  * If the element has an overflow set as part of its computed style it can scroll.
  * @param element the element to check scrollability
  */
+// 判断传入的元素是否为滚动元素，如果他的属性中包含overflow 相关属性则为 true
 export const isScrollableElement = (element: HTMLElement) => {
 	const computedStyle = getComputedStyle(element);
 	return (

@@ -52,6 +52,7 @@ export class ContentSwitcher implements AfterViewInit {
 	 */
 	@Output() selected = new EventEmitter<ContentSwitcherOption>();
 
+	// 父组件中 查询到全部的子组件
 	@ContentChildren(ContentSwitcherOption) options: QueryList<ContentSwitcherOption>;
 
 	constructor(protected elementRef: ElementRef) {}
@@ -71,6 +72,9 @@ export class ContentSwitcher implements AfterViewInit {
 						option.active = false;
 					}
 				});
+				// 本来是子组件选中，事件应该在 ContentSwitcherOption 中 emit
+				// 如果这样，那么久需要在每个 ContentSwitcherOption 都绑定 select 回调，非常繁琐
+				// 而此处，父组件监听了所有子组件的事件，处理后再次 emit 就方便很多
 				this.selected.emit(active);
 			});
 		});
@@ -78,6 +82,7 @@ export class ContentSwitcher implements AfterViewInit {
 
 	@HostListener("keydown", ["$event"])
 	hostkeys(event: KeyboardEvent) {
+		// 这里用原生js获取到全部的 ibmContentOption 元素
 		const buttonList = Array.from<any>(this.elementRef.nativeElement.querySelectorAll("[ibmContentOption]"));
 
 		switch (event.key) {
@@ -86,6 +91,8 @@ export class ContentSwitcher implements AfterViewInit {
 				event.preventDefault();
 				if (!isFocusInLastItem(event, buttonList))  {
 					const index = buttonList.findIndex(item => item === event.target);
+					// 然后调用 ibmContentOption 的 focus 方法
+					// ibmContentOption 中有监听 focus 事件
 					buttonList[index + 1].focus();
 				} else {
 					buttonList[0].focus();
