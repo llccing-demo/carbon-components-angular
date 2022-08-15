@@ -108,6 +108,7 @@ export class ContextMenuItemComponent implements OnInit, AfterContentInit, OnDes
 		}
 	}
 
+	// 监听按键操作，提高了易用性。
 	@HostListener("keydown.enter", ["$event"])
 	@HostListener("keydown.space", ["$event"])
 	@HostListener("click", ["$event"])

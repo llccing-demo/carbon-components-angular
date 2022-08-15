@@ -15,7 +15,7 @@ storiesOf("Components|Context Menu", module)
 	.addDecorator(withKnobs)
 	.add("Basic", () => ({
 		template: `
-			<ibm-context-menu [open]="open" [position]="position">
+			<aibm-context-menu [open]="open" [position]="position">
 				<ibm-context-menu-item label="Cut" info="⌘X"></ibm-context-menu-item>
 				<ibm-context-menu-item label="Option with icon" icon="calendar"></ibm-context-menu-item>
 				<ibm-context-menu-divider></ibm-context-menu-divider>
@@ -37,7 +37,7 @@ storiesOf("Components|Context Menu", module)
 							<ibm-context-menu-item type="radio" label="Radio one" value="one"></ibm-context-menu-item>
 							<ibm-context-menu-item type="radio" label="Radio two" value="two"></ibm-context-menu-item>
 							<ibm-context-menu-item type="radio" label="Radio three" value="three"></ibm-context-menu-item>
-							<ibm-context-menu-item type="radio" label="Radio four" value="four"></ibm-context-menu-item>
+							<ibm-context-menu-item type="radio" lbel="Radio four" value="four"></ibm-context-menu-item>
 						</ibm-context-menu-group>
 					</ibm-context-menu>
 				</ibm-context-menu-item>

@@ -35,6 +35,7 @@ export class ContextMenuGroupComponent implements OnInit, OnChanges, OnDestroy {
 	@Input() type: null | "radio" | "checkbox" = null;
 	@Output() valueChange = new EventEmitter<any[]>();
 
+	// 这个写法把所有的订阅放到一个里，最终一起 unsubscribe() 非常简洁
 	private subscription = new Subscription();
 
 	constructor(protected contextMenuSelectionService: ContextMenuSelectionService) { }

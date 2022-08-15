@@ -2,6 +2,7 @@ import { Component, HostBinding } from "@angular/core";
 
 @Component({
 	selector: "ibm-context-menu-divider",
+	// 该组件设置模板，样式都加在了 host 元素上。
 	template: "",
 	styles: [`
 		:host {
