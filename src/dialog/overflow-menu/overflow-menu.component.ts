@@ -28,6 +28,7 @@ import { OverflowMenuDirective } from "./overflow-menu.directive";
  */
 @Component({
 	selector: "ibm-overflow-menu",
+	// template 中使用了 imbOverflowMenu directive，注意 directive 和 component 的关系
 	template: `
 		<button
 			[ibmOverflowMenu]="options"
@@ -43,8 +44,10 @@ import { OverflowMenuDirective } from "./overflow-menu.directive";
 			class="bx--overflow-menu"
 			type="button"
 			[placement]="placement">
+			<!-- ng-template 的这种用法可以借鉴，这里包含的 if/else 和 ngTemplateOutlet 的使用，并且 customerTrigger 是props -->
 			<ng-template *ngIf="customTrigger; else defaultIcon" [ngTemplateOutlet]="customTrigger"></ng-template>
 		</button>
+		<!-- 这里使用了 ng-template 和 ng-content 嵌套的方式，非常灵活 -->
 		<ng-template #options>
 			<ng-content></ng-content>
 		</ng-template>

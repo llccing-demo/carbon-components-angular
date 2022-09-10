@@ -39,6 +39,7 @@ import { closestAttr } from "carbon-components-angular/utils";
 		</ul>
 	`
 })
+// 这里也继承了 Dialog
 export class OverflowMenuPane extends Dialog implements AfterViewInit {
 	constructor(
 		protected elementRef: ElementRef,
@@ -134,7 +135,7 @@ export class OverflowMenuPane extends Dialog implements AfterViewInit {
 			target: event.target
 		});
 	}
-
+	// Dialog 定义的空函数在这里实现了
 	afterDialogViewInit() {
 		const focusElementList = this.listItems();
 		focusElementList.forEach(button => {
@@ -145,6 +146,7 @@ export class OverflowMenuPane extends Dialog implements AfterViewInit {
 		});
 		if (focusElementList[0]) {
 			focusElementList[0].tabIndex = 0;
+			// 这里设置了 focus
 			focusElementList[0].focus();
 		}
 	}

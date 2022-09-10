@@ -51,11 +51,13 @@ export class OverflowMenuCustomPane extends Dialog implements AfterViewInit {
 			* we also move the element by half of it's own width, since
 			* position service will try and center everything
 			*/
+			// 这里是找到最近的设置了 relative/fixed/absolute 的元素
 			const closestRel = closestAttr("position", ["relative", "fixed", "absolute"], this.elementRef.nativeElement);
 			const topFix = closestRel ? closestRel.getBoundingClientRect().top * -1 : 0;
 			const leftFix = closestRel ? closestRel.getBoundingClientRect().left * -1 : 0;
 
 			offset = Math.round(this.dialog.nativeElement.offsetWidth / 2) - 20;
+			// 这里如果设置了 flip， 取 -offset
 			if (this.dialogConfig.flip) {
 				return position.addOffset(pos, topFix, (-offset + leftFix));
 			}

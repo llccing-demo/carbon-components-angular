@@ -64,6 +64,7 @@ const REL = "noreferrer noopener";
 			[attr.target]="target"
 			[attr.rel]="rel"
 			[attr.title]="title">
+			<!-- 这里的 ng-container 和 ng-template、ng-content 的组合使用 -->
 			<ng-container *ngTemplateOutlet="tempOutlet"></ng-container>
 		</a>
 
@@ -157,6 +158,8 @@ Please use the \`Target\` enum exported by carbon-components-angular`);
 	ngAfterViewInit() {
 		const button = this.elementRef.nativeElement.querySelector("button, a");
 		const textContainer = button.querySelector(".bx--overflow-menu-options__option-content");
+		// https://stackoverflow.com/questions/21064101/understanding-offsetwidth-clientwidth-scrollwidth-and-height-respectively
+		// scrollWidth > offsetWidth 说明内容比较多，出现滚动条。这时设置了 title 属性
 		if (textContainer.scrollWidth > textContainer.offsetWidth) {
 			this.title = button.textContent;
 		}

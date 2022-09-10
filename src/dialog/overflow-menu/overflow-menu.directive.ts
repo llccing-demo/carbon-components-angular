@@ -44,6 +44,7 @@ import { EventService } from "carbon-components-angular/utils";
 		DialogService
 	]
 })
+// 继承了 DialogDirective
 export class OverflowMenuDirective extends DialogDirective implements AfterContentInit {
 	/**
 	 * Takes a template ref of `OverflowMenuOptions`s
@@ -52,6 +53,7 @@ export class OverflowMenuDirective extends DialogDirective implements AfterConte
 	/**
 	 * Controls wether the overflow menu is flipped
 	 */
+	// 如果overflowMenu 在表格最后一列，这个属性可以设置为 true，这样就不会点击时出现滚动条
 	@Input() flip = false;
 	/**
 	 * This specifies any vertical and horizontal offset for the position of the dialog
