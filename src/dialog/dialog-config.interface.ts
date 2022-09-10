@@ -86,6 +86,7 @@ export interface DialogConfig {
 	/**
 	 * Additional arbitrary properties (mostly for internal/extended component use)
 	 */
+	// 这个预留属性，在后面其他组件继承 Dialog 时也许有用，待看。
 	[propName: string]: any;
 	/**
 	 * Classes to add to the dialog container

@@ -16,6 +16,8 @@ import {
 	Subscription
 } from "rxjs";
 // the AbsolutePosition is required to import the declaration correctly
+// https://github.com/carbon-design-system/carbon-utils-position/blob/master/src/index.ts
+
 import Position, { position, AbsolutePosition, Positions } from "@carbon/utils-position";
 import { cycleTabs, getFocusElementList } from "carbon-components-angular/common";
 import { CloseMeta, CloseReasons, DialogConfig } from "./dialog-config.interface";
@@ -85,6 +87,8 @@ export class Dialog implements OnInit, AfterViewInit, OnDestroy {
 	constructor(
 		protected elementRef: ElementRef,
 		protected elementService: ElementService,
+		// https://medium.com/frontend-coach/self-or-optional-host-the-visual-guide-to-angular-di-decorators-73fbbb5c8658
+		// 解释了 @Optional 的场景
 		@Optional() protected animationFrameService: AnimationFrameService = null
 	) {}
 
@@ -149,6 +153,7 @@ export class Dialog implements OnInit, AfterViewInit, OnDestroy {
 	/**
 	 * Empty method to be overridden by consuming classes to run any additional initialization code.
 	 */
+	// 作为基类，给继承的子类定义出方法，类似接口的作用
 	onDialogInit() {}
 
 	/**
@@ -161,6 +166,8 @@ export class Dialog implements OnInit, AfterViewInit, OnDestroy {
 	 * Uses the position service to position the `Dialog` in screen space
 	 */
 	placeDialog(): void {
+		// 这里引入了 https://github.com/carbon-design-system/carbon-utils-position
+		// 一个计算位置的 utils 库
 		const positionService = new Position(this.placements);
 		// helper to find the position based on the current/given environment
 		const findPosition = (reference, target, placement) => {
@@ -227,6 +234,7 @@ export class Dialog implements OnInit, AfterViewInit, OnDestroy {
 	 * `Dialog` object.
 	 * @param event
 	 */
+	// 这里表示如果点击组件外的地方，将 dialog 关闭
 	@HostListener("document:click", ["$event"])
 	clickClose(event) {
 		if (!this.elementRef.nativeElement.contains(event.target)

@@ -32,6 +32,7 @@ export class EventService implements OnDestroy {
 	}
 
 	ngOnDestroy() {
+		// 将事件独立为 service，然后注入到需要的组件中，这样在组件的使用完毕后，不需要手动移除事件监听，因为service的 ngOnDestroy 生命周期中，会取消全部的事件监听。
 		this.subscriptions.unsubscribe();
 	}
 }

@@ -177,6 +177,7 @@ export class DialogDirective implements OnInit, OnDestroy, OnChanges {
 
 		const element = this.elementRef.nativeElement;
 
+		// 将事件监听拆分成单独的服务，易于维护，同时解耦。
 		this.eventService.on(element, "keydown", (event: KeyboardEvent) => {
 			// "Esc" is an IE specific value
 			if (event.target === this.dialogConfig.parentRef.nativeElement &&

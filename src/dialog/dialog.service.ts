@@ -93,9 +93,12 @@ export class DialogService {
 		DialogService.dialogRefs.add(dialogRef);
 
 		// initialize some extra options
+		// 这里记住了，当前点击的元素。document.activeElement 这个属性还是第一次见到
 		dialogConfig["previouslyFocusedElement"] = document.activeElement;
 		dialogRef.instance.dialogConfig = dialogConfig;
 
+		// 实际业务中遇到一个现象是，每次 Dialog 显示时，总是自动 focus 到close icon，这种focus是不合理的行为。
+		// 应该可以设置 focus 的对象，或者 focus 的优先级
 		dialogRef.instance.elementRef.nativeElement.focus();
 
 		return dialogRef as ComponentRef<Dialog>;
@@ -110,7 +113,7 @@ export class DialogService {
 	close(dialogRef: ComponentRef<Dialog>) {
 		// to handle the case where we have a null `this.dialogRef`
 		if (!dialogRef) { return; }
-
+		// 关闭的时候又拿到上次 open 时点击的元素，重新focus。
 		const elementToFocus = dialogRef.instance.dialogConfig["previouslyFocusedElement"];
 
 		dialogRef.destroy();
@@ -122,6 +125,7 @@ export class DialogService {
 
 		// Keeps the focus on the dialog trigger if there are no focusable elements. Change focus to previously focused element
 		// if there are focusable elements in the dialog.
+		// tabableSelector 表示所有按 tab 键能够focus的元素。
 		if (!dialogRef.location.nativeElement.querySelectorAll(tabbableSelector)) {
 			elementToFocus.focus();
 		}
