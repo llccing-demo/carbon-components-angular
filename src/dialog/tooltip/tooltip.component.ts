@@ -92,6 +92,7 @@ export class Tooltip extends Dialog {
 		const focusableElements = getFocusElementList(this.dialog.nativeElement);
 		if (focusableElements.length > 0) {
 			this.role = "dialog";
+			// 自动 focus 的逻辑
 			focusableElements[0].focus();
 		}
 	}
