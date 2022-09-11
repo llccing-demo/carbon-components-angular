@@ -26,6 +26,7 @@ class IconDemo implements OnInit {
 	constructor(protected iconService: IconService) {}
 
 	ngOnInit() {
+		// 这里注册了要使用的 icon
 		this.iconService.register(Accessibility16);
 	}
 }
@@ -83,7 +84,9 @@ storiesOf("Components|Icon", module).addDecorator(
 				app-* components are for demo purposes only.
 				You can create your own implementation by using the component source as an example.
 			-->
+			<!-- 这里显示引入 app-demo-icon 组件，主要目的是 icon 注册 -->
 			<app-demo-icon></app-demo-icon>
+			<!-- 下面才是实际的使用 -->
 			<svg ibmIcon="accessibility" size="16" title="Hello!"></svg>
 		`,
 		props: {

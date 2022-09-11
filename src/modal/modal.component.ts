@@ -20,7 +20,7 @@ import { cycleTabs, getFocusElementList } from "carbon-components-angular/common
  *
  * Using a modal in your application requires `ibm-placeholder` which would generally be
  * placed near the end of your app component template (app.component.ts or app.component.html) as:
- *
+ * 这里注意要有个 ibm-placeholder 组件，它的行为有时很怪异。比如这里如果这么用了，再访问其他的页面的dropdown不能展示了。
 ```html
 <ibm-placeholder></ibm-placeholder>
 ```

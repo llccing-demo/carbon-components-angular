@@ -45,6 +45,7 @@ export class IconDirective implements AfterViewInit {
 		try {
 			icon = this.iconService.get(this.ibmIcon, this.size.toString());
 		} catch (error) {
+			// 如果按官方文档使用了icon，但是没显示出来，可以看 warning 来知道应该是该 icon 没有注册。
 			console.warn(error);
 			// bail out
 			return;

@@ -10,7 +10,7 @@ import { NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import { I18n } from "carbon-components-angular/i18n";
 import { FileItem } from "./file-item.interface";
-
+// 这里定义了一个空函数，便于后面重复使用
 const noop = () => { };
 
 /**
@@ -82,6 +82,7 @@ const noop = () => { };
 			<button ibmButton skeleton="true"></button>
 		</ng-template>
 	`,
+	// 这里虽然提供了这个 provider 但是没有 implements ControlValueAccessor interface
 	providers: [
 		{
 			provide: NG_VALUE_ACCESSOR,
@@ -178,6 +179,7 @@ export class FileUploader {
 		return this.files;
 	}
 	set value(v: Set<FileItem>) {
+		// 同样为了避免死循环，但是 set 可以用 == 比较
 		if (v !== this.files) {
 			this.files = v;
 			this.onChangeCallback(v);
@@ -196,6 +198,7 @@ export class FileUploader {
 	 * Propagates the injected `value`.
 	 */
 	writeValue(value: Set<FileItem>) {
+		// 这里避免了 死循环
 		if (value !== this.value) {
 			this.files = value;
 		}

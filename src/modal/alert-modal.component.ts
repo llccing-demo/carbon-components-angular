@@ -64,6 +64,10 @@ import { BaseModal } from "./base-modal.class";
 			</div>
 			<ibm-modal-footer *ngIf="buttons.length > 0">
 				<ng-container *ngFor="let button of buttons; let i = index">
+					<!-- 
+					这里的 attr.modal-primary-focus，在 modal.component.ts 中查找的就是这个元素，然后自动 focus
+					可能项目中，自动 focus 到 close icon 的bug 是因为没有设置 [modal-primary-focus] 这个属性。
+					 -->
 					<button
 						[ibmButton]="button.type"
 						(click)="buttonClicked(i)"

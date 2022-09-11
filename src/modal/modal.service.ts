@@ -38,6 +38,8 @@ export class ModalService {
 			provide: inputName,
 			useValue: data.inputs[inputName]
 		}));
+		// Injector 的使用
+		// https://blog.angular-university.io/angular-dependency-injection/
 		const injector = Injector.create(inputProviders);
 		const factory = this.resolver.resolveComponentFactory(data.component);
 		let focusedElement = document.activeElement as HTMLElement;

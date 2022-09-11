@@ -13,6 +13,8 @@ import {
  *
  * The main purpose for this component is to be able to handle click events that fall outside
  * the bounds of the `Modal` component.
+ * 
+ * 这个组件的主要作用是处理 modal 组件外的点击事件
  */
 @Component({
 	selector: "ibm-overlay",
