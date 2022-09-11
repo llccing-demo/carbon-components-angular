@@ -13,6 +13,7 @@ export class NotificationDisplayService {
 	close(notificationRef: any) {
 		if (notificationRef.hostView) {
 			setTimeout( () => {
+				// 整个 angular 应用的 ref
 				this.applicationRef.detachView(notificationRef.hostView);
 				notificationRef.destroy();
 			}, 200);

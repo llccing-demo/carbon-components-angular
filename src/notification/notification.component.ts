@@ -56,6 +56,7 @@ import { of, isObservable, Subject } from "rxjs";
 						<a ibmLink [href]="link.href"> {{link.text}}</a>
 					</ng-container>
 				</div>
+				<!-- 注意这里的写法, 将模板和prop都放到了 *ngTemplateOutlet 一个变量中 -->
 				<ng-container *ngTemplateOutlet="notificationObj.template; context: { $implicit: notificationObj}"></ng-container>
 			</div>
 		</div>
@@ -69,6 +70,7 @@ import { of, isObservable, Subject } from "rxjs";
 				{{action.text}}
 			</button>
 		</div>
+		<!-- 这里的 closeLabel | async, 是因为如果 closeLabel 是通过i18n赋值, 那么是 observable 类型，所以需要 async. 省去了 subscribe -->
 		<button
 			*ngIf="!isCloseHidden"
 			(click)="onClose()"
@@ -141,6 +143,7 @@ export class Notification {
 		if (!action.click) {
 			return;
 		}
+		// 这里可以看出来, click 支持 observable 类型
 		if (isObservable(action.click)) {
 			(action.click as Subject<{event: Event, action: any}>).next({event, action});
 		} else {

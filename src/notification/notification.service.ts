@@ -106,6 +106,9 @@ export class NotificationService implements OnDestroy {
 		}
 
 		if (notificationObj.duration && notificationObj.duration > 0) {
+			// 这个写法很有意思，参考下面这篇文章
+			// https://hijiangtao.github.io/2020/01/17/Angular-Zone-Concepts/
+			// 这里的意思是定时器，不出发angular变更检测，但是定时器的结果触发
 			this.ngZone.runOutsideAngular(() => {
 				setTimeout(() => {
 					this.ngZone.run(() => {
@@ -194,6 +197,7 @@ export class NotificationService implements OnDestroy {
 		// message length
 		// average reader reads around 200 words per minute, or it takes them ~0.3s per word
 		// let's use 1.5 factor for below average speed readers and have 0.45s per word
+		// 这个很有意思，按字符长度来计算timeout，也非常合理，字符越多，用户看的时间理应越长。
 		let wordCount = notificationObj.message.trim().split(/\s+/).length;
 		timeout += wordCount * 450;
 
