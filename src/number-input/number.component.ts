@@ -171,6 +171,8 @@ export class NumberComponent implements ControlValueAccessor {
 		this._value = Number(v);
 	}
 
+	// template 中绑定的变量是 value，而不是 _value
+	// 不过 tempalte 中是 []，而不是[(ngModel)]="value"
 	get value() {
 		return this._value;
 	}

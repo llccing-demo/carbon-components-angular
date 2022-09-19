@@ -51,6 +51,7 @@ import { RadioChange } from "./radio-change.class";
 		</label>
 	`,
 	providers: [
+		// 仅提供了这个 provider 但是并没有实现 ControlValueProcessor 接口
 		{
 			provide: NG_VALUE_ACCESSOR,
 			useExisting: Radio,

@@ -39,6 +39,7 @@ export class Placeholder implements OnInit {
 	 */
 	ngOnInit() {
 		// TODO use `id` to register with the placeholderService
+		// id 作为参数传入了组件中，但是这里看起来没有被使用。这里的id为啥没像其他组建中，使用自增id来实现呢，待答疑。
 		this.placeholderService.registerViewContainerRef(this.viewContainerRef);
 	}
 }

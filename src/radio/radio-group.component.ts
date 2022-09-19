@@ -291,6 +291,7 @@ export class RadioGroup implements AfterContentInit, AfterViewInit, ControlValue
 	 * Updates the value of the `RadioGroup` using the provided parameter.
 	 */
 	writeValue(value: any) {
+		// 这里 writeValue 写入的值是 value 而不是 _value.
 		this.value = value;
 		setTimeout(() => {
 			this.updateSelectedRadioFromValue();
